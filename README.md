@@ -12,7 +12,7 @@ Use Python 3.10 or newer. Install a [PyTorch and torchvision build](https://pyto
 pip install -r requirements.txt
 ```
 
-The released checkpoint is [`checkpoints/updem.pth`](checkpoints/updem.pth). It contains model parameters only, without optimizer state. SHA-256: `333ddd1ee8fe9bb0a65e0dc67f9d719fe45462aad2dec351fc7d3e68dff80831`. `torch.load` should only be used with files from trusted sources.
+The released checkpoint is [`checkpoints/updem.pth`](checkpoints/updem.pth).
 
 ## Quick start
 
@@ -83,6 +83,9 @@ The full source datasets and OPID collection are not included in this code repos
   author  = {Luo, Yidong and Wu, Caiyun and Li, Chenggong and Wang, Ping and Yuan, Xin and Yang, Kailun and Zhang, Junchao},
   journal = {IEEE Transactions on Image Processing},
   year    = {2026},
+  volume  = {35},
+  number  = {},
+  pages   = {10152-10166},
   doi     = {10.1109/TIP.2026.3730838}
 }
 ```
