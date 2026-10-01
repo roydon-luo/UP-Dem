@@ -18,7 +18,8 @@ from utils.initialization import Init_interp, generate_edge_mask
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train UP-Dem on paired polarization images")
-    parser.add_argument("--train-root", action="append", required=True, help="Repeat for multiple dataset roots")
+    parser.add_argument("--train-root", action="append", required=True,
+                        help="Parent directory with dataset/scene/{0,45,90,135}.png; repeat for multiple roots")
     parser.add_argument("--output-dir", default=args.train_path)
     parser.add_argument("--epochs", type=int, default=args.epochs)
     parser.add_argument("--batch-size", type=int, default=args.train_batch_size)

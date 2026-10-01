@@ -1,5 +1,4 @@
 import random
-from itertools import chain
 from pathlib import Path
 
 import numpy as np
@@ -30,25 +29,21 @@ class PairedPolarizationDataset(Dataset):
         for root in map(Path, roots):
             if not root.is_dir():
                 raise FileNotFoundError(f"Dataset directory does not exist: {root}")
-            for folder in chain((root,), root.rglob("*")):
-                if not folder.is_dir():
+            for dataset_dir in root.iterdir():
+                if not dataset_dir.is_dir():
                     continue
-                files = tuple(folder / f"{angle}.png" for angle in ANGLES)
-                if all(path.is_file() for path in files):
-                    name = folder.relative_to(root).as_posix()
-                    self.scenes.append((files, name if name != "." else folder.name))
-                angle_dirs = tuple(folder / f"gt_{angle}" for angle in ANGLES)
-                if all(path.is_dir() for path in angle_dirs):
-                    for first in angle_dirs[0].glob("*_0.png"):
-                        stem = first.stem[:-2]
-                        files = tuple(directory / f"{stem}_{angle}.png" for directory, angle in zip(angle_dirs, ANGLES))
-                        if all(path.is_file() for path in files):
-                            parent = folder.relative_to(root).as_posix()
-                            name = stem if parent == "." else f"{parent}/{stem}"
-                            self.scenes.append((files, name))
+                for scene_dir in dataset_dir.iterdir():
+                    if not scene_dir.is_dir():
+                        continue
+                    files = tuple(scene_dir / f"{angle}.png" for angle in ANGLES)
+                    present = [path.is_file() for path in files]
+                    if any(present) and not all(present):
+                        raise ValueError(f"Incomplete four-angle scene: {scene_dir}")
+                    if all(present):
+                        self.scenes.append((files, f"{dataset_dir.name}/{scene_dir.name}"))
         self.scenes.sort(key=lambda scene: scene[1].lower())
         if not self.scenes:
-            raise ValueError("No complete four-angle scenes found under: " + ", ".join(map(str, roots)))
+            raise ValueError("Expected dataset/scene/{0,45,90,135}.png under: " + ", ".join(map(str, roots)))
 
     def __len__(self):
         return len(self.scenes)

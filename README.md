@@ -12,7 +12,7 @@ Use Python 3.10 or newer. Install a [PyTorch and torchvision build](https://pyto
 pip install -r requirements.txt
 ```
 
-The released checkpoint is [`checkpoints/updem.pth`](checkpoints/updem.pth).
+The released checkpoint is [`checkpoints/updem.pth`](checkpoints/updem.pth). It contains model parameters only, without optimizer state. SHA-256: `333ddd1ee8fe9bb0a65e0dc67f9d719fe45462aad2dec351fc7d3e68dff80831`. `torch.load` should only be used with files from trusted sources.
 
 ## Quick start
 
@@ -23,7 +23,7 @@ python infer.py --raw-root examples/raw --skip-rlp --output-dir outputs/quicksta
 python infer.py --rlp-root examples/paired --skip-raw --output-dir outputs/quickstart --device cuda
 ```
 
-The reconstructed images are saved in `outputs/quickstart/Raw/album/` and `outputs/quickstart/RLP/OPID071/`. The paired example also produces `outputs/quickstart/RLP/metrics.csv`. Use `--device cpu` if CUDA is unavailable.
+The reconstructed images are saved in `outputs/quickstart/Raw/album/` and `outputs/quickstart/RLP/OPID/OPID071/`. The paired example also produces `outputs/quickstart/RLP/metrics.csv`. Use `--device cpu` if CUDA is unavailable.
 
 ## Inference
 
@@ -41,11 +41,12 @@ python infer.py --rlp-root /path/to/paired --skip-raw --output-dir outputs/infer
 
 ```text
 paired/
-  scene_001/
-    0.png
-    45.png
-    90.png
-    135.png
+  OPID/
+    scene_001/
+      0.png
+      45.png
+      90.png
+      135.png
 ```
 
 Use `--device cpu` when CUDA is unavailable. Results are written under `outputs/inference/Raw/` or `outputs/inference/RLP/`. Each scene includes the four reconstructed angle images, Stokes-derived visualizations, and a `.mat` file when SciPy is installed. Input images should use the same 4×4 CPFA arrangement and Bayer pattern as the paper; the default is RGGB with polarization offsets specified in `utils/initialization.py`. Verify the camera's pixel order before applying this checkpoint to another sensor.
@@ -54,16 +55,16 @@ Run both inputs together with `python infer.py --rlp-root /path/to/paired --raw-
 
 ## Training
 
-Training accepts one or more roots with scene folders in the paired layout above. It also accepts the original dataset layout: `gt_0`, `gt_45`, `gt_90`, `gt_135` folders with matching `<scene>_<angle>.png` names. For example:
+Training data follows `dataset/scene/{0,45,90,135}.png`. Point `--train-root` to the parent directory containing the dataset folders, and repeat the option only when using multiple parent directories. For example:
 
 ```bash
-python train.py --train-root /path/to/MQ --train-root /path/to/PIDSR --train-root /path/to/OPID --output-dir outputs/train --device cuda
+python train.py --train-root /path/to/trainsets --output-dir outputs/train --device cuda
 ```
 
 Defaults are 100 epochs, batch size 24, 128×128 paired random crops, Adam at 1e-4, and seven iterative CDU blocks. The staged loss uses reconstruction MSE for epochs 1–10, adds polarization loss for epochs 11–31, and uses self-similarity plus polarization losses afterward. The latest training checkpoint is saved as `model.pth` after each epoch. A quick integration run is:
 
 ```bash
-python train.py --train-root /path/to/paired --batch-size 1 --max-steps 1 --output-dir outputs/smoke --device cuda
+python train.py --train-root examples/paired --batch-size 1 --max-steps 1 --output-dir outputs/smoke --device cuda
 ```
 
 Training from scratch depends on the dataset and augmentation used. The command above does not recreate the exact training set or experimental environment used for the released checkpoint. The available training code uses a noise scale of 0.04, whereas the paper reports 0.1; this discrepancy is being checked against the original experiment settings.
