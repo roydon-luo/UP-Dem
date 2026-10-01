@@ -12,7 +12,7 @@ Use Python 3.10 or newer. Install a [PyTorch and torchvision build](https://pyto
 pip install -r requirements.txt
 ```
 
-The released checkpoint is [`checkpoints/updem.pth`](checkpoints/updem.pth). It contains model parameters only, without optimizer state. SHA-256: `333ddd1ee8fe9bb0a65e0dc67f9d719fe45462aad2dec351fc7d3e68dff80831`. `torch.load` should only be used with files from trusted sources.
+The released checkpoint is [`checkpoints/updem.pth`](checkpoints/updem.pth).
 
 ## Quick start
 
