@@ -1,6 +1,6 @@
 # UP-Dem
 
-Official code and pretrained model for **UP-Dem: Deep Unrolling Convolutional Sparse Coding for Color Polarization Image Demosaicking**, published online in *IEEE Transactions on Image Processing* (2026). [Paper](https://doi.org/10.1109/TIP.2026.3730838) · [Open OPID dataset](https://huggingface.co/datasets/Roydon728/OPID).
+Official code and pretrained model for **UP-Dem: Deep Unrolling Convolutional Sparse Coding for Color Polarization Image Demosaicking**, published in *IEEE Transactions on Image Processing* (2026). [Paper](https://doi.org/10.1109/TIP.2026.3730838) · [Open OPID dataset](https://huggingface.co/datasets/Roydon728/OPID).
 
 UP-Dem reconstructs four RGB polarization views (0°, 45°, 90°, and 135°) from a color polarization filter array (CPFA) measurement. The model has a color reconstruction stage followed by a polarization reconstruction stage, with seven iterative CDU blocks plus the terminal block in each stage.
 
