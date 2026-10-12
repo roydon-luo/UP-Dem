@@ -1,6 +1,6 @@
 # UP-Dem
 
-Official code and pretrained model for **UP-Dem: Deep Unrolling Convolutional Sparse Coding for Color Polarization Image Demosaicking**, published online in *IEEE Transactions on Image Processing* (2026). [Paper](https://doi.org/10.1109/TIP.2026.3730838).
+Official code and pretrained model for **UP-Dem: Deep Unrolling Convolutional Sparse Coding for Color Polarization Image Demosaicking**, published online in *IEEE Transactions on Image Processing* (2026). [Paper](https://doi.org/10.1109/TIP.2026.3730838) · [Open OPID dataset](https://huggingface.co/datasets/Roydon728/OPID).
 
 UP-Dem reconstructs four RGB polarization views (0°, 45°, 90°, and 135°) from a color polarization filter array (CPFA) measurement. The model has a color reconstruction stage followed by a polarization reconstruction stage, with seven iterative CDU blocks plus the terminal block in each stage.
 
@@ -73,7 +73,7 @@ Training from scratch depends on the dataset and augmentation used. The command 
 
 OPID is our outdoor polarization image dataset with 80 distinct scenes at 1024×1024 resolution. A division-of-time system with a rotating polarizer captures RGB images at 0°, 45°, 90°, and 135° for each scene. The scenes include vehicles, electric scooters, buildings, and wider city views at different distances and under morning, noon, and evening illumination. For each angle, 50 frames are averaged to reduce sensor noise while keeping the four-angle acquisition of a scene to approximately one minute. These four-angle images provide reference data for synthetic CPFA evaluation and can be arranged in the paired layout shown above.
 
-The full source datasets and OPID collection are not included in this code repository; the paired OPID scene above is a small example. A public OPID download location will be added when available. The dataset loader supports the formats described above; public MQ and PIDSR datasets are third-party resources governed by their own terms.
+The full OPID dataset is openly available at [Roydon728/OPID on Hugging Face](https://huggingface.co/datasets/Roydon728/OPID). This code repository includes one paired OPID example scene, while the complete dataset is hosted separately. The dataset loader supports the formats described above; public MQ and PIDSR datasets are third-party resources governed by their own terms.
 
 ## Citation
 
